@@ -31,8 +31,8 @@
     "jsonwebtoken": "^8.5.1",
     "morgan": "^1.10.0",
     "reflect-metadata": "^0.1.13",
-    "routing-controllers": "^0.9.0",
-    "routing-controllers-openapi": "^3.1.0",
+    "routing-controllers": "^0.8.1",
+    "routing-controllers-openapi": "^2.2.0",
     "swagger-ui-express": "^4.5.0",
     "winston": "^3.8.1",
     "winston-daily-rotate-file": "^4.7.1"
