@@ -2,6 +2,7 @@ import http from 'http'
 import express, { Express } from 'express'
 import morgan from 'morgan'
 import routes from './routes/index'
+import mysql from 'mysql'
 
 const router: Express = express()
 

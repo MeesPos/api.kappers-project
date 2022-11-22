@@ -1,17 +1,7 @@
 import { Request, Response, NextFunction } from 'express'
-
-import mysql from 'mysql'
+import connection from '../config/databaseConfig'
 
 const getIndex = async (req: Request, res: Response, next: NextFunction) => {
-    const connection = mysql.createConnection({
-        host: 'localhost',
-        user: 'test',
-        password: '',
-        database: 'my_db',
-    })
-
-    connection.connect()
-
     connection.query('SELECT 1 + 1 AS solution', (err, rows, fields) => {
         if (err) throw err
 
