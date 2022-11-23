@@ -1,7 +1,7 @@
-import express from "express";
-import controller from "../controllers/index";
-const router = express.Router();
+import express from 'express'
+import controllers from '@controllers/index'
+const router = express.Router()
 
-router.get("/", controller.getIndex);
+router.get('/', controllers.getIndex)
 
-export = router;
+export = router
