@@ -19,6 +19,7 @@
 	},
 	"homepage": "https://github.com/MeesPos/api.kappers-project#readme",
 	"dependencies": {
+		"@prisma/client": "^4.6.1",
 		"@types/axios": "^0.14.0",
 		"@types/morgan": "^1.9.3",
 		"axios": "^1.1.3",
