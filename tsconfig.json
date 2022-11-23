@@ -7,12 +7,6 @@
         "rootDir": "./src",
         "target": "es6",
         "skipLibCheck": true,
-        "baseUrl": "",
-        "paths": {
-            "@controllers/*": ["./src/controllers/*"],
-            "@routes/*": ["./src/routes/*"],
-            "@interfaces/*": ["./src/interfaces/*"]
-        },
         "strict": true
     }
 }

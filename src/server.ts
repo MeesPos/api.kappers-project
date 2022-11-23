@@ -1,7 +1,7 @@
 import http from 'http'
 import express, { Express } from 'express'
 import morgan from 'morgan'
-import routes from '@routes/index'
+import routes from './routes/index'
 
 const router: Express = express()
 
@@ -31,6 +31,7 @@ router.use(express.json())
 
 /* Routes */
 router.use('/', routes)
+router.use('/haidresser', routes)
 
 /* Error handling */
 router.use((req, res, next) => {
