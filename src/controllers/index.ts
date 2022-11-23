@@ -1,14 +1,11 @@
 import { Request, Response, NextFunction } from 'express'
-import connection from '../config/databaseConfig'
+import { PrismaClient } from '@prisma/client'
+
+const prisma = new PrismaClient();
 
 const getIndex = async (req: Request, res: Response, next: NextFunction) => {
-    connection.query('SELECT 1 + 1 AS solution', (err, rows, fields) => {
-        if (err) throw err
-
-        res.send('The solution is: ' + rows[0].solution)
-    })
-
-    connection.end()
+    const hairdressers = await prisma.hairdresser.findMany()
+    res.json(hairdressers);
 }
 
 export default { getIndex }
