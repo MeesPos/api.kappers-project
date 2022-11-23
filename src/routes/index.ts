@@ -5,5 +5,6 @@ const router = express.Router()
 router.get('/', controllers.getIndex)
 
 router.get('/hairdressers', controllers.getAllHairdressers)
+router.get('/hairdresser/:id', controllers.getHairdresser)
 
 export = router

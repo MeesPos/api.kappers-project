@@ -32,6 +32,7 @@ router.use(express.json())
 /* Routes */
 router.use('/', routes)
 router.use('/haidresser', routes)
+router.use('/hairdresser/:id', routes)
 
 /* Error handling */
 router.use((req, res, next) => {
