@@ -4,6 +4,10 @@ import morgan from 'morgan'
 import routes from './routes/index'
 import swaggerJSDoc from 'swagger-jsdoc'
 import swaggerUi from 'swagger-ui-express'
+import YAML from 'yamljs'
+
+const openapiDoc = YAML.load('./openapi.yaml')
+
 const router: Express = express()
 
 /*Logging */
@@ -32,22 +36,8 @@ router.use(express.json())
 
 /* Routes */
 router.use('/', routes)
-const swaggerOptions = {
-    failOnErrors: true, // Whether or not to throw when parsing errors. Defaults to false.
-    definition: {
-        openapi: '3.0.0',
-        info: {
-            title: 'Hello World',
-            version: '1.0.0',
-        },
-    },
-    apis: ['./src/routes/*.ts'],
-}
-router.use(
-    '/api-docs',
-    swaggerUi.serve,
-    swaggerUi.setup(swaggerJSDoc(swaggerOptions))
-)
+
+router.use('/api-docs', swaggerUi.serve, swaggerUi.setup(openapiDoc))
 
 /* Error handling */
 router.use((req, res, next) => {
