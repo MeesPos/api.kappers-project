@@ -2,7 +2,8 @@ import http from 'http'
 import express, { Express } from 'express'
 import morgan from 'morgan'
 import routes from './routes/index'
-
+import swaggerJSDoc from 'swagger-jsdoc'
+import swaggerUi from 'swagger-ui-express'
 const router: Express = express()
 
 /*Logging */
@@ -31,6 +32,22 @@ router.use(express.json())
 
 /* Routes */
 router.use('/', routes)
+const swaggerOptions = {
+    failOnErrors: true, // Whether or not to throw when parsing errors. Defaults to false.
+    definition: {
+        openapi: '3.0.0',
+        info: {
+            title: 'Hello World',
+            version: '1.0.0',
+        },
+    },
+    apis: ['./routes/index.ts'],
+}
+router.use(
+    '/api-docs',
+    swaggerUi.serve,
+    swaggerUi.setup(swaggerJSDoc(swaggerOptions))
+)
 
 /* Error handling */
 router.use((req, res, next) => {
@@ -41,7 +58,7 @@ router.use((req, res, next) => {
 })
 
 const httpServer = http.createServer(router)
-const PORT: any = process.env.PORT ?? 3000
+const PORT: any = process.env.PORT ?? 8000
 httpServer.listen(PORT, () =>
     console.log(`The server is running on port ${PORT}`)
 )

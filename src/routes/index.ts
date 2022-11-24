@@ -1,7 +1,17 @@
-import express from "express";
-import controller from "../controllers/index";
-const router = express.Router();
+import express from 'express'
+import controller from '../controllers/index'
 
-router.get("/", controller.getIndex);
+const router = express.Router()
 
-export = router;
+/**
+ * @openapi
+ * /:
+ *   get:
+ *     description:  index
+ *     responses: {hello: world}
+ *       200:
+ *         description: index.
+ */
+router.get('/', controller.getIndex)
+
+export = router
