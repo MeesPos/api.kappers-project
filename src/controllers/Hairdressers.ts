@@ -3,7 +3,16 @@ import { PrismaClient } from '@prisma/client'
 
 const prisma = new PrismaClient()
 
-const getHairdresser = async (
+export const getAllHairdressers = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    const hairdressers = await prisma.hairdresser.findMany()
+    res.json(hairdressers)
+}
+
+export const getHairdresser = async (
     req: Request,
     res: Response,
     next: NextFunction
@@ -21,5 +30,3 @@ const getHairdresser = async (
 
     res.json(hairdresser)
 }
-
-export default getHairdresser
