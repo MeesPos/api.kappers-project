@@ -1,18 +1,10 @@
 import express from 'express'
-import controller from '../controllers/index'
-
+import controllers from '../controllers/index'
 const router = express.Router()
 
-/**
- * @swagger
- * /:
- *   get:
- *     description: Get index
- *     responses:
- *       200:
- *         description: Success
- *
- */
-router.get('/', controller.getIndex)
+router.get('/', controllers.getIndex)
+
+router.get('/hairdressers', controllers.getAllHairdressers)
+router.get('/hairdresser/:id', controllers.getHairdresser)
 
 export = router
