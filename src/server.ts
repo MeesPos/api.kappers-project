@@ -31,6 +31,8 @@ router.use(express.json())
 
 /* Routes */
 router.use('/', routes)
+router.use('/haidresser', routes)
+router.use('/hairdresser/:id', routes)
 
 /* Error handling */
 router.use((req, res, next) => {
@@ -41,7 +43,7 @@ router.use((req, res, next) => {
 })
 
 const httpServer = http.createServer(router)
-const PORT: any = process.env.PORT ?? 3000
+const PORT: any = process.env.PORT ?? 8000
 httpServer.listen(PORT, () =>
-    console.log(`The server is running on port ${PORT}`)
+    console.log(`The server is running on http://localhost:${PORT}`)
 )

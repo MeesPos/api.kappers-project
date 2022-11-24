@@ -1,11 +1,9 @@
 import { Request, Response, NextFunction } from 'express'
 import { PrismaClient } from '@prisma/client'
-
-const prisma = new PrismaClient();
+import { getHairdresser, getAllHairdressers } from './Hairdressers'
 
 const getIndex = async (req: Request, res: Response, next: NextFunction) => {
-    const hairdressers = await prisma.hairdresser.findMany()
-    res.json(hairdressers);
+    res.send('index page')
 }
 
-export default { getIndex }
+export default { getIndex, getAllHairdressers, getHairdresser }
