@@ -4,13 +4,14 @@ import controller from '../controllers/index'
 const router = express.Router()
 
 /**
- * @openapi
+ * @swagger
  * /:
  *   get:
- *     description:  index
- *     responses: {hello: world}
+ *     description: Get index
+ *     responses:
  *       200:
- *         description: index.
+ *         description: Success
+ *
  */
 router.get('/', controller.getIndex)
 

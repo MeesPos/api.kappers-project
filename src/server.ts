@@ -41,7 +41,7 @@ const swaggerOptions = {
             version: '1.0.0',
         },
     },
-    apis: ['./routes/index.ts'],
+    apis: ['./src/routes/*.ts'],
 }
 router.use(
     '/api-docs',
