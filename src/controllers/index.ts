@@ -1,8 +1,12 @@
 import { Request, Response, NextFunction } from 'express'
-import { getHairdresser, getAllHairdressers } from './Hairdressers'
+import {
+    getHairdresser,
+    getAllHairdressers,
+    postHairdresser,
+} from './Hairdressers'
 
 const getIndex = async (req: Request, res: Response, next: NextFunction) => {
     res.send('index page')
 }
 
-export default { getIndex, getAllHairdressers, getHairdresser }
+export default { getIndex, getAllHairdressers, getHairdresser, postHairdresser }

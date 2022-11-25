@@ -30,3 +30,22 @@ export const getHairdresser = async (
 
     res.json(hairdresser)
 }
+
+export const postHairdresser = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    console.log(req.body)
+
+    // const hairdresser = await prisma.hairdresser.upsert({
+    //    where:{
+    //     req.
+    //    }
+    // })
+    // if (!hairdresser) {
+    //     res.status(404).send('The hairdresser you tried to find is not found')
+    // }
+
+    res.json(req.body)
+}
