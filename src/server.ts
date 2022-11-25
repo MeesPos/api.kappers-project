@@ -2,6 +2,11 @@ import http from 'http'
 import express, { Express } from 'express'
 import morgan from 'morgan'
 import routes from './routes/index'
+import swaggerJSDoc from 'swagger-jsdoc'
+import swaggerUi from 'swagger-ui-express'
+import YAML from 'yamljs'
+
+const openapiDoc = YAML.load('./openapi.yaml')
 
 const router: Express = express()
 
@@ -31,8 +36,8 @@ router.use(express.json())
 
 /* Routes */
 router.use('/', routes)
-router.use('/haidresser', routes)
-router.use('/hairdresser/:id', routes)
+
+router.use('/api-docs', swaggerUi.serve, swaggerUi.setup(openapiDoc))
 
 /* Error handling */
 router.use((req, res, next) => {
