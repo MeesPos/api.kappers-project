@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express'
 import { PrismaClient } from '@prisma/client'
-
+import { login } from './auth/login';
 const prisma = new PrismaClient();
 
 const getIndex = async (req: Request, res: Response, next: NextFunction) => {
@@ -8,4 +8,4 @@ const getIndex = async (req: Request, res: Response, next: NextFunction) => {
     res.json(hairdressers);
 }
 
-export default { getIndex }
+export default { getIndex, login }
