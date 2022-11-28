@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express'
 import { PrismaClient } from '@prisma/client'
-
+import bcrypt from 'bcrypt'
 const prisma = new PrismaClient()
 
 export const getAllHairdressers = async (
@@ -36,16 +36,36 @@ export const postHairdresser = async (
     res: Response,
     next: NextFunction
 ) => {
-    console.log(req.body)
+    const { name, email, password, availability } = req.body
+    console.log('\npassword: ' + req.body.password)
 
-    // const hairdresser = await prisma.hairdresser.upsert({
-    //    where:{
-    //     req.
-    //    }
-    // })
-    // if (!hairdresser) {
-    //     res.status(404).send('The hairdresser you tried to find is not found')
-    // }
+    const hash = await bcrypt.hash(password, 10)
 
-    res.json(req.body)
+    console.log('hash: ' + hash + '\n')
+
+    try {
+        //Upsert because we dont want to create two times the same record
+        const hairdresser = await prisma.hairdresser.upsert({
+            where: {
+                email: email,
+            },
+            create: {
+                name: name,
+                email: email,
+                password: hash,
+                availability: availability,
+            },
+            update: {
+                name: name,
+                email: email,
+                password: hash,
+                availability: availability,
+            },
+        })
+    } catch (error) {
+        res.send(error)
+        return
+    }
+
+    res.json({ succes: true })
 }

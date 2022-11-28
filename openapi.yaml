@@ -80,3 +80,10 @@ paths:
                     content:
                         text/plain:
                             example: The hairdresser you tried to find is not found
+    /hairdresser:
+        post:
+            description: ''
+            parameters: []
+            responses:
+                '200':
+                    description: OK
