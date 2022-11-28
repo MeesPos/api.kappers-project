@@ -13,8 +13,6 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
         }
     })
 
-    console.log(existingUser, password, email);
-
     if (existingUser === null || existingUser.password != password) {
         Promise.resolve().then(() => {
             throw new Error('invalid credentials');
