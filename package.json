@@ -31,6 +31,7 @@
 	"devDependencies": {
 		"@types/express": "^4.17.14",
 		"@types/fs-extra": "^9.0.13",
+		"@types/jsonwebtoken": "^8.5.9",
 		"@types/mysql": "^2.15.21",
 		"@types/node": "^16.18.3",
 		"@types/shelljs": "^0.8.11",

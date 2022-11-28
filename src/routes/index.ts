@@ -6,4 +6,4 @@ router.get("/", controller.getIndex);
 
 router.post("/login", controller.login);
 
-export = router;    
+export = router;
