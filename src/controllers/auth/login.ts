@@ -5,7 +5,6 @@ import jwt from 'jsonwebtoken';
 const prisma = new PrismaClient();
 
 export const login = async (req: Request, res: Response, next: NextFunction) => {
-    // req.body = JSON.parse(req.body);
     const { email, password } = req.body;
 
     let existingUser = await prisma.hairdresser.findFirst({
