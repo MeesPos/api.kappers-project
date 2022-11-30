@@ -18,7 +18,12 @@ export const sendMail = async (
     });
 
     if (existingUser === null) {
-        res.send('Email sent');
+        /*
+        We do not want to indicate that the user does not exist, this is a security issue that we must avoid.
+
+        SOURCE - https://cheatsheetseries.owasp.org/cheatsheets/Forgot_Password_Cheat_Sheet.html
+        */
+        res.status(200).send('Email sent');
 
         return;
     }
@@ -35,22 +40,10 @@ export const sendMail = async (
     transporter.sendMail({
         from: process.env.MAIL_FROM,
         to: existingUser.email,
-        subject: "Password rest",
-        text: "test",
+        subject: "Password reset",
         html: `Hello, <br><br>Reset your password to click on this button:<br> <a href="${url}"><button>Reset wachtwoord</button></a><br><br>Or click on this URL:<br><a href="${url}">${url}</a>`
-    }, (error, info) => {
-        if (error) {
-            console.log(error);
-
-            res.json(error)
-
-            return;
-        }
-
-        res.status(200).send({
-            message: "Mail send",
-            message_id: info.messageId
-        })
+    }, () => {
+        res.status(200).send('Email sent');
     })
 }
 
@@ -67,8 +60,11 @@ export const resetPassword = async (
     });
 
     if (existingUser === null) {
-        // We do not want to indicate that the user does not exist, this is a security issue that we must avoid.
-        res.send('Token is invalid').status(498);
+        /*
+        We do not want to indicate that the user does not exist, this is a security issue that we must avoid.
+
+        SOURCE - https://cheatsheetseries.owasp.org/cheatsheets/Forgot_Password_Cheat_Sheet.html
+        */        res.send('Token is invalid').status(498);
 
         return;
     }
