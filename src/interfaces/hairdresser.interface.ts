@@ -10,7 +10,7 @@ interface WeekDay {
     sunday: string
 }
 
-export interface Availability {
+interface Availability {
     unavailable_times: WeekDay
     available_times: WeekDay
 }
