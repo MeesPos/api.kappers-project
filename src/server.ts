@@ -2,12 +2,7 @@ import http from 'http'
 import express, { Express } from 'express'
 import morgan from 'morgan'
 import routes from './routes/index'
-import swaggerJSDoc from 'swagger-jsdoc'
-import swaggerUi from 'swagger-ui-express'
-import YAML from 'yamljs'
 import cors from 'cors'
-
-const openapiDoc = YAML.load('./openapi.yaml')
 
 const router: Express = express()
 
@@ -23,8 +18,6 @@ router.use(cors())
 /* Routes */
 router.use('/', routes)
 
-router.use('/api-docs', swaggerUi.serve, swaggerUi.setup(openapiDoc))
-
 /* Error handling */
 router.use((req, res, next) => {
     const error = new Error('not found')
@@ -36,5 +29,5 @@ router.use((req, res, next) => {
 const httpServer = http.createServer(router)
 const PORT: any = process.env.PORT ?? 8000
 httpServer.listen(PORT, () =>
-    console.log(`The server is running on http://localhost:${PORT}`)
+    console.log(`The server is running on port ${PORT}`)
 )
