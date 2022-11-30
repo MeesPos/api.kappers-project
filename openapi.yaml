@@ -1,0 +1,82 @@
+openapi: '3.0.2'
+info:
+    title: Marjolein Knip Knip API
+    version: '1.0'
+servers:
+    - url: http://localhost:8000
+paths:
+    /:
+        get:
+            responses:
+                '200':
+                    description: index page
+    /hairdressers:
+        get:
+            description: 'Get all hairdressers'
+            parameters: []
+            responses:
+                '200':
+                    description: Array of the below json object with information of all hairdressers in the database
+                    content:
+                        application/json:
+                            example:
+                                name: Marjolein Knip Knip,
+                                email: marjolein@knipknip.com,
+                                availability:
+                                    unavailable_times:
+                                        monday: 13:00-18:00,
+                                        thursday: 9:00-15:00,
+                                        wednesday: 10:00-14:00,
+                                        thuesday: 16:00-18:00,
+                                        friday: 10:00-13:00,
+                                        saturday: null,
+                                        sunday: null,
+
+                                    available_times:
+                                        monday: 13:00-18:00,
+                                        thursday: 15:00-18:00,
+                                        wednesday: 14:00-16:00,
+                                        thuesday: 10:00-16:00,
+                                        friday: 10:00-13:00,
+                                        saturday: null,
+                                        sunday: null,
+    /hairdresser/{id}:
+        get:
+            description: ''
+            parameters:
+                - name: id
+                  in: 'path'
+                  required: true
+                  schema:
+                      type: integer
+            responses:
+                '200':
+                    description: Json object of the requested hairdresser by id.
+                    content:
+                        application/json:
+                            example:
+                                name: Marjolein Knip Knip,
+                                email: marjolein@knipknip.com,
+                                availability:
+                                    unavailable_times:
+                                        monday: 13:00-18:00,
+                                        thursday: 9:00-15:00,
+                                        wednesday: 10:00-14:00,
+                                        thuesday: 16:00-18:00,
+                                        friday: 10:00-13:00,
+                                        saturday: null,
+                                        sunday: null,
+
+                                    available_times:
+                                        monday: 13:00-18:00,
+                                        thursday: 15:00-18:00,
+                                        wednesday: 14:00-16:00,
+                                        thuesday: 10:00-16:00,
+                                        friday: 10:00-13:00,
+                                        saturday: null,
+                                        sunday: null,
+                '404':
+                    description: the requested hairdresser is not present in the database
+                    content:
+                        text/plain:
+                            example: The hairdresser you tried to find is not found
