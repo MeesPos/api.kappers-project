@@ -64,7 +64,8 @@ export const resetPassword = async (
         We do not want to indicate that the user does not exist, this is a security issue that we must avoid.
 
         SOURCE - https://cheatsheetseries.owasp.org/cheatsheets/Forgot_Password_Cheat_Sheet.html
-        */        res.send('Token is invalid').status(498);
+        */
+        res.status(498).send('Token is invalid');
 
         return;
     }
@@ -75,7 +76,7 @@ export const resetPassword = async (
 
         // @ts-ignore
         if (decoded?.email !== existingUser?.email) {
-            res.send('Token is invalid').status(498);
+            res.status(498).send('Token is invalid');
 
             return;
         }
@@ -89,9 +90,9 @@ export const resetPassword = async (
             }
         })
 
-        res.json(updatedUser);
+        res.send('Password updated');
     } catch (err) {
-        res.send('Token is invalid').status(498);
+        res.status(498).send('Token is invalid');
 
         return;
     }
