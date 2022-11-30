@@ -58,5 +58,45 @@ export const resetPassword = async (
     req: Request,
     res: Response
 ) => {
-    res.send("Dit is een test");
+    const { email, password, token } = req.body;
+
+    let existingUser = await prisma.hairdresser.findFirst({
+        where: {
+            email: email
+        }
+    });
+
+    if (existingUser === null) {
+        // We do not want to indicate that the user does not exist, this is a security issue that we must avoid.
+        res.send('Token is invalid').status(498);
+
+        return;
+    }
+
+    try {
+        // @ts-ignore
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+        // @ts-ignore
+        if (decoded?.email !== existingUser?.email) {
+            res.send('Token is invalid').status(498);
+
+            return;
+        }
+
+        const updatedUser = await prisma.hairdresser.update({
+            where: {
+                email: existingUser.email
+            },
+            data: {
+                password: password
+            }
+        })
+
+        res.json(updatedUser);
+    } catch (err) {
+        res.send('Token is invalid').status(498);
+
+        return;
+    }
 }
