@@ -7,9 +7,9 @@ router.get('/', controllers.getIndex)
 router.get('/hairdressers', controllers.getAllHairdressers)
 router.get('/hairdresser/:id', controllers.getHairdresser)
 
-router.post("/login", controller.login);
-router.post('/forgot-password', controller.sendMail)
+router.post("/login", controllers.login);
+router.post('/forgot-password', controllers.sendMail)
 
-router.post('/reset-password', controller.resetPassword)
+router.post('/reset-password', controllers.resetPassword)
 
 export = router;
