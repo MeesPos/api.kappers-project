@@ -53,3 +53,10 @@ export const sendMail = async (
         })
     })
 }
+
+export const resetPassword = async (
+    req: Request,
+    res: Response
+) => {
+    res.send("Dit is een test");
+}
