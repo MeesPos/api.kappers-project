@@ -18,7 +18,6 @@ export const getHairdresser = async (
     next: NextFunction
 ) => {
     const hairdresser_id = +req.params.id
-
     const hairdresser = await prisma.hairdresser.findUnique({
         where: {
             id: hairdresser_id,
@@ -26,6 +25,7 @@ export const getHairdresser = async (
     })
     if (!hairdresser) {
         res.status(404).send('The hairdresser you tried to find is not found')
+        return
     }
 
     res.json(hairdresser)

@@ -18,6 +18,6 @@ export interface Availability {
 export interface Hairdresser {
     name: string
     email: string
-    password: Hash
+    password?: Hash
     availability: Availability
 }
