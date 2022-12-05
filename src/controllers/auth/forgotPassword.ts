@@ -2,6 +2,7 @@ import { Request, Response } from 'express'
 import { PrismaClient } from '@prisma/client'
 import { transporter } from '../../utils/mailer'
 import jwt from 'jsonwebtoken'
+import bcrypt from 'bcrypt'
 
 const prisma = new PrismaClient()
 
@@ -92,7 +93,7 @@ export const resetPassword = async (req: Request, res: Response) => {
                 email: existingUser.email,
             },
             data: {
-                password: password,
+                password: await bcrypt.hash(password, 10),
             },
         })
 
