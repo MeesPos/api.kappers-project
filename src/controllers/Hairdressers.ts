@@ -37,11 +37,8 @@ export const postHairdresser = async (
     next: NextFunction
 ) => {
     const { name, email, password, availability } = req.body
-    console.log('\npassword: ' + req.body.password)
 
     const hash = await bcrypt.hash(password, 10)
-
-    console.log('hash: ' + hash + '\n')
 
     try {
         //Upsert because we dont want to create two times the same record
