@@ -80,3 +80,35 @@ paths:
                     content:
                         text/plain:
                             example: The hairdresser you tried to find is not found
+    /hairdresser:
+        post:
+            description: 'this route is to add a hairdresser to the db'
+            requestBody:
+                description: Json object containing the hairdresers information
+                content:
+                    application/json:
+                        example:
+                            name: Marjolein Knip Knip,
+                            email: marjolein@knipknip.com,
+                            availability:
+                                unavailable_times:
+                                    monday: 13:00-18:00,
+                                    thursday: 9:00-15:00,
+                                    wednesday: 10:00-14:00,
+                                    thuesday: 16:00-18:00,
+                                    friday: 10:00-13:00,
+                                    saturday: null,
+                                    sunday: null,
+
+                                available_times:
+                                    monday: 13:00-18:00,
+                                    thursday: 15:00-18:00,
+                                    wednesday: 14:00-16:00,
+                                    thuesday: 10:00-16:00,
+                                    friday: 10:00-13:00,
+                                    saturday: null,
+                                    sunday: null,
+
+            responses:
+                '200':
+                    description: OK
