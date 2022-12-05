@@ -2,6 +2,7 @@ import { Request, Response } from 'express'
 import { PrismaClient } from '@prisma/client'
 import { transporter } from '../../utils/mailer'
 import jwt from 'jsonwebtoken'
+import bcrypt from 'bcrypt'
 
 const prisma = new PrismaClient()
 
@@ -76,7 +77,28 @@ export const resetPassword = async (req: Request, res: Response) => {
         return
     }
 
+    let errors = [];
+
     try {
+        if (password.length < 8 ) {
+            errors.push('Het wachtwoord moet langer dan 8 tekens zijn');
+        }
+
+        if (password.replace(/[^0-9]/g, '').length < 1) {
+            errors.push('Het wachtwoord moet minimaal 1 cijfer bevatten')
+        }
+
+        if (password.replace(/[^A-Z]/g, '').length < 1) {
+            errors.push('Het wachtwoord moet minimaal 1 hoofdletter bevatten');
+        }
+
+        if (errors.length !== 0) {
+            res.status(400)
+               .json(errors);
+
+            return;
+        }
+
         // @ts-ignore
         const decoded = jwt.verify(token, process.env.JWT_SECRET)
 
@@ -87,12 +109,12 @@ export const resetPassword = async (req: Request, res: Response) => {
             return
         }
 
-        const updatedUser = await prisma.hairdresser.update({
+        await prisma.hairdresser.update({
             where: {
                 email: existingUser.email,
             },
             data: {
-                password: password,
+                password: await bcrypt.hash(password, 10),
             },
         })
 

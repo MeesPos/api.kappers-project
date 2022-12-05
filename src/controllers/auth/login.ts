@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express'
 import { PrismaClient } from '@prisma/client'
 import jwt from 'jsonwebtoken'
+import bcrypt from 'bcrypt'
 
 const prisma = new PrismaClient()
 
@@ -17,7 +18,9 @@ export const login = async (
         },
     })
 
-    if (!existingUser || existingUser.password != password) {
+
+    if (!existingUser || !await bcrypt.compare(password, existingUser?.password)) {
+        // @ts-ignore
         Promise.resolve()
             .then(() => {
                 throw new Error('invalid credentials')
