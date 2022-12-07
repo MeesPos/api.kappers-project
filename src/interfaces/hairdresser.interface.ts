@@ -1,23 +1,22 @@
-import { Hash } from 'crypto'
-
-interface WeekDay {
-    monday: string
-    thuesday: string
-    wednesday: string
-    thursday: string
-    friday: string
-    saturday: string
-    sunday: string
+export interface StartEndTime {
+    start_time: string
+    end_time: string
+    pauses: StartEndTime[]
 }
 
 export interface Availability {
-    unavailable_times: WeekDay
-    available_times: WeekDay
+    monday: StartEndTime
+    tuesday: StartEndTime
+    wednesday: StartEndTime
+    thursday: StartEndTime
+    friday: StartEndTime
+    saturday: StartEndTime
+    sunday: StartEndTime
 }
 
 export interface Hairdresser {
     name: string
     email: string
-    password?: Hash
+    password: string
     availability: Availability
 }
