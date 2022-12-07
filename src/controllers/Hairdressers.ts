@@ -4,6 +4,16 @@ import bcrypt from 'bcrypt'
 
 const prisma = new PrismaClient()
 
+function exclude<Hairdresser, Key extends keyof Hairdresser>(
+    hairdresser: Hairdresser,
+    keys: Key[]
+): Omit<Hairdresser, Key> {
+    for (const key of keys) {
+        delete hairdresser[key]
+    }
+    return hairdresser
+}
+
 export const getAllHairdressers = async (
     req: Request,
     res: Response,
@@ -24,10 +34,12 @@ export const getHairdresser = async (
             id: hairdresser_id,
         },
     })
+
     if (!hairdresser) {
         res.status(404).send('The hairdresser you tried to find is not found')
         return
     }
+    exclude(hairdresser, ['password'])
 
     res.json(hairdresser)
 }
