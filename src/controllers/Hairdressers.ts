@@ -44,7 +44,36 @@ export const getHairdresser = async (
     res.json(hairdresser)
 }
 
-export const postHairdresser = async (
+export const postUpdateHairdresser = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    const { name, email, password } = req.body
+
+    const hash = await bcrypt.hash(password, 10)
+
+    try {
+        //Upsert because we dont want to create two times the same record
+        const hairdresser = await prisma.hairdresser.update({
+            where: {
+                email: email,
+            },
+            data: {
+                name: name,
+                email: email,
+                password: hash,
+            },
+        })
+    } catch (error) {
+        res.send(error)
+        return
+    }
+
+    res.json({ succes: true })
+}
+
+export const postNewHairdresser = async (
     req: Request,
     res: Response,
     next: NextFunction
@@ -63,13 +92,11 @@ export const postHairdresser = async (
                 name: name,
                 email: email,
                 password: hash,
-                availability: availability,
             },
             update: {
                 name: name,
                 email: email,
                 password: hash,
-                availability: availability,
             },
         })
     } catch (error) {

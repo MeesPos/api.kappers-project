@@ -6,8 +6,8 @@ router.get('/', controllers.getIndex)
 
 router.get('/hairdressers', controllers.getAllHairdressers)
 router.get('/hairdresser/:id', controllers.getHairdresser)
-router.post('/hairdresser', controllers.postHairdresser)
-
+router.post('/new/hairdresser', controllers.postNewHairdresser)
+router.post('/update/hairdresser', controllers.postNewHairdresser)
 router.post('/login', controllers.login)
 router.post('/forgot-password', controllers.sendMail)
 
