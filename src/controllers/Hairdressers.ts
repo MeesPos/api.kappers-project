@@ -78,12 +78,11 @@ export const postNewHairdresser = async (
     res: Response,
     next: NextFunction
 ) => {
-    const { name, email, password, availability } = req.body
+    const { name, email, password } = req.body
 
     const hash = await bcrypt.hash(password, 10)
 
     try {
-        //Upsert because we dont want to create two times the same record
         const hairdresser = await prisma.hairdresser.upsert({
             where: {
                 email: email,
