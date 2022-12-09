@@ -7,6 +7,7 @@ import {
 } from './Hairdressers'
 import { login } from './auth/login'
 import { sendMail, resetPassword } from './auth/forgotPassword'
+import { getAvailability } from './availability'
 
 const getIndex = async (req: Request, res: Response, next: NextFunction) => {
     res.send('index page')
@@ -19,4 +20,5 @@ export default {
     login,
     sendMail,
     resetPassword,
+    getAvailability
 }
