@@ -6,6 +6,7 @@ router.get('/', controllers.getIndex)
 
 router.get('/hairdressers', controllers.getAllHairdressers)
 router.get('/hairdresser/:id', controllers.getHairdresser)
+router.post('/hairdresser/:id/default-times', controllers.addDefaultAvailability)
 router.post('/new/hairdresser', controllers.postNewHairdresser)
 router.post('/update/hairdresser', controllers.postNewHairdresser)
 router.post('/login', controllers.login)

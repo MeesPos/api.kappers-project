@@ -5,13 +5,13 @@ export interface StartEndTime {
 }
 
 export interface Availability {
-    monday: StartEndTime
-    tuesday: StartEndTime
-    wednesday: StartEndTime
-    thursday: StartEndTime
-    friday: StartEndTime
-    saturday: StartEndTime
-    sunday: StartEndTime
+    0: StartEndTime
+    1: StartEndTime
+    2: StartEndTime
+    3: StartEndTime
+    4: StartEndTime
+    5: StartEndTime
+    6: StartEndTime
 }
 
 export interface Hairdresser {
