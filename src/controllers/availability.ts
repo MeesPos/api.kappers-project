@@ -25,9 +25,6 @@ export const getAvailability = async (req: Request, res: Response) => {
     // Dit moet gevuld worden met de afspraken die de kapper heeft in de komende 28 dagen. Dit moet nog gemaakt worden.
     const appointments = [];
 
-    // Dit moet gevuld worden met de data die komt, maar die is nu nog niet gemaakt
-    const treatmentTime = 30;
-
     const dates = [];
 
     for (let i = 1; i < 29; i++) {
