@@ -37,31 +37,18 @@ export const getAvailability = async (req: Request, res: Response) => {
 
         const newDate = date.toLocaleDateString().replace(/\//g, '-')
 
-        const changed_time = hairdresser?.changed_times.find(item => {
-            // @ts-ignore
-            const milliseconds = item.date * 1000;
-
-            const date = new Date(milliseconds).toLocaleDateString().replace(/\//g, '-');
-
-            return date === newDate
-        })
+        // @ts-ignore
+        const changed_time = hairdresser?.changed_times.find(item => new Date(item.date * 1000).toLocaleDateString().replace(/\//g, '-') === newDate);
 
         let available = false;
 
-
-        if (changed_time !== undefined && (changed_time?.start_time !== null || changed_time?.end_time !== null)) {
-            available = true;
-        }
+        available = changed_time !== undefined && (changed_time?.start_time !== null || changed_time?.end_time !== null);
 
         if (changed_time === undefined) {
-            const default_time = hairdresser?.default_times.find(item => {
-                // @ts-ignore
-                return item.day_of_the_week === date.getDate()
-            })
+            // @ts-ignore
+            const default_time = hairdresser?.default_times.find(item => item.day_of_the_week === date.getDate())
 
-            if (default_time !== undefined) {
-                available = true;
-            }
+            available = default_time !== undefined;
         }
         
         dates.push({
