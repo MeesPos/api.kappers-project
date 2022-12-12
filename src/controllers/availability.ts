@@ -3,7 +3,7 @@ import { PrismaClient } from "@prisma/client"
 
 const prisma = new PrismaClient()
 
-export const getAvailability = async (req: Request, res: Response) => {
+export const getAvailableDates = async (req: Request, res: Response) => {
     const hairdresser_id = +req.params.id
     const hairdresser = await prisma.hairdresser.findUnique({
         where: {
