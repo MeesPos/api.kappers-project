@@ -63,7 +63,7 @@ export const getAvailabilityOnDate = async (req: Request, res: Response) => {
 
     const [day, month, year] = date.split('-');
 
-    const convertedDate = new Date(+year, Number(month) - 1, +day);
+    const convertedDate = new Date(+year, Number(month) - 1, +day, 1);
 
     const hairdresser = await prisma.hairdresser.findUnique({
         where: {
@@ -72,7 +72,7 @@ export const getAvailabilityOnDate = async (req: Request, res: Response) => {
         include: {
             default_times: {
                 where: {
-                    day_of_the_week: String(convertedDate.getDay())
+                    day_of_the_week: String(convertedDate.getUTCDay())
                 }
             },
             changed_times: {
@@ -91,31 +91,36 @@ export const getAvailabilityOnDate = async (req: Request, res: Response) => {
 
     const times = [];
 
+    let secMinBeginTime, secMinEndTime;
+
     if (hairdresser?.changed_times.length !== 0) {
-        const secMinBeginTime = hairdresser?.changed_times[0].start_time.toString().split(':');
-        const secMinEndTime = hairdresser?.changed_times[0].end_time.toString().split(':'); 
+        secMinBeginTime = hairdresser?.changed_times[0].start_time.toString().split(':');
+        secMinEndTime = hairdresser?.changed_times[0].end_time.toString().split(':');
+    } else {
+        secMinBeginTime = hairdresser?.default_times[0].start_time.toString().split(':');
+        secMinEndTime = hairdresser?.default_times[0].end_time.toString().split(':');
+    }
 
+    // @ts-ignore
+    let beginTime = new Date(+year, Number(month) - 1, +day, Number(secMinBeginTime[0]), Number(secMinBeginTime[1]));
+    // @ts-ignore
+    let endTime = new Date(+year, Number(month) - 1, +day, Number(secMinEndTime[0]), Number(secMinEndTime[1]));
+
+    const msInMinute = 60 * 1000;
+
+    const minutes = Math.round(
         // @ts-ignore
-        let beginTime = new Date(+year, Number(month) - 1, +day, Number(secMinBeginTime[0]) + 1, Number(secMinBeginTime[1]));
-        // @ts-ignore
-        let endTime = new Date(+year, Number(month) - 1, +day, Number(secMinEndTime[0]) + 1, Number(secMinEndTime[1]));
+        Math.abs(endTime - beginTime) / msInMinute
+    );
 
-        const msInMinute = 60 * 1000;
+    for (let i = 1; i <= (minutes / treatmentTime); i++) {
+        const startTime = beginTime.toLocaleTimeString();
+        beginTime = new Date(beginTime.getTime() + treatmentTime * 60000);
 
-        const minutes = Math.round(
-            // @ts-ignore
-            Math.abs(endTime - beginTime) / msInMinute
-        );
-
-        for (let i = 1; i < (minutes / treatmentTime) - 1; i++) {
-            const startTime = beginTime.toLocaleTimeString();
-            beginTime = new Date(beginTime.getTime() + treatmentTime * 60000);
-
-            times.push({
-                start_time: startTime,
-                end_time: beginTime.toLocaleTimeString()
-            })
-        }
+        times.push({
+            start_time: startTime,
+            end_time: beginTime.toLocaleTimeString()
+        })
     }
 
     res.json(times);
