@@ -30,7 +30,7 @@ model ChangedTimes {
   id Int @id @default(autoincrement())
   hairdresser Hairdresser @relation(fields: [hairdresser_id], references: [id])
   hairdresser_id Int
-  date DateTime
+  date String
   start_time String
   end_time String
   pauzes Json
