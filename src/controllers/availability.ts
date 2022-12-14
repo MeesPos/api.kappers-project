@@ -106,11 +106,9 @@ export const getAvailabilityOnDate = async (req: Request, res: Response) => {
     // @ts-ignore
     let endTime = new Date(+year, Number(month) - 1, +day, Number(secMinEndTime[0]), Number(secMinEndTime[1]));
 
-    const msInMinute = 60 * 1000;
-
     const minutes = Math.round(
         // @ts-ignore
-        Math.abs(endTime - beginTime) / msInMinute
+        Math.abs(endTime - beginTime) / (60 * 1000)
     );
 
     for (let i = 1; i <= (minutes / treatmentTime); i++) {
