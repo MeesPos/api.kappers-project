@@ -4,6 +4,8 @@ import {
     getAllHairdressers,
     postUpdateHairdresser,
     postNewHairdresser,
+    addDefaultAvailability,
+    getDefaultAvailability
 } from './Hairdressers'
 import { login } from './auth/login'
 import { sendMail, resetPassword } from './auth/forgotPassword'
@@ -21,6 +23,9 @@ export default {
     login,
     sendMail,
     resetPassword,
+    addDefaultAvailability,
+    getDefaultAvailability
     getAvailableDates,
     getAvailabilityOnDate
+
 }

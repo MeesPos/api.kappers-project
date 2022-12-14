@@ -21,9 +21,10 @@ model DefaultTimes {
   hairdresser Hairdresser @relation(fields: [hairdresser_id], references: [id])
   hairdresser_id Int
   day_of_the_week String
-  start_time String
-  end_time String
+  start_time String?
+  end_time String?
   pauzes Json
+
 }
 
 model ChangedTimes {
@@ -31,7 +32,8 @@ model ChangedTimes {
   hairdresser Hairdresser @relation(fields: [hairdresser_id], references: [id])
   hairdresser_id Int
   date String
-  start_time String
-  end_time String
+  start_time String?
+  end_time String?
   pauzes Json
 }
+
