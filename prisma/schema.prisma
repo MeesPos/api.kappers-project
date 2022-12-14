@@ -19,7 +19,7 @@ model Hairdresser {
 model DefaultTimes {
   id Int @id @default(autoincrement())
   hairdresser Hairdresser @relation(fields: [hairdresser_id], references: [id])
-  hairdresser_id Int @unique
+  hairdresser_id Int
   day_of_the_week String
   start_time String?
   end_time String?
