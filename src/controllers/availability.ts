@@ -56,3 +56,67 @@ export const getAvailableDates = async (req: Request, res: Response) => {
 
     res.json(dates);
 }
+
+export const getAvailabilityOnDate = async (req: Request, res: Response) => {
+    const hairdresser_id = +req.params.id;
+    const date = req.params.date;
+
+    const [day, month, year] = date.split('-');
+
+    const convertedDate = new Date(+year, Number(month) - 1, +day);
+
+    const hairdresser = await prisma.hairdresser.findUnique({
+        where: {
+            id: hairdresser_id,
+        },
+        include: {
+            default_times: {
+                where: {
+                    day_of_the_week: String(convertedDate.getDay())
+                }
+            },
+            changed_times: {
+                where: {
+                    date: String(convertedDate.getTime() / 1000)
+                }
+            }
+        }
+    })
+
+    // Dit moet gevuld worden met de afspraken die de kapper heeft in de komende 28 dagen. Dit moet nog gemaakt worden.
+    const appointments = [];
+
+    // Dit moet gevuld worden met de tijd dat een behandeling duurt, maar dit moet nog gemaakt worden.
+    const treatmentTime = 30;
+
+    const times = [];
+
+    if (hairdresser?.changed_times.length !== 0) {
+        const secMinBeginTime = hairdresser?.changed_times[0].start_time.toString().split(':');
+        const secMinEndTime = hairdresser?.changed_times[0].end_time.toString().split(':'); 
+
+        // @ts-ignore
+        let beginTime = new Date(+year, Number(month) - 1, +day, Number(secMinBeginTime[0]) + 1, Number(secMinBeginTime[1]));
+        // @ts-ignore
+        let endTime = new Date(+year, Number(month) - 1, +day, Number(secMinEndTime[0]) + 1, Number(secMinEndTime[1]));
+
+        const msInMinute = 60 * 1000;
+
+        const minutes = Math.round(
+            // @ts-ignore
+            Math.abs(endTime - beginTime) / msInMinute
+        );
+
+        for (let i = 1; i < (minutes / treatmentTime) - 1; i++) {
+            const startTime = beginTime.toLocaleTimeString();
+            beginTime = new Date(beginTime.getTime() + treatmentTime * 60000);
+
+            times.push({
+                start_time: startTime,
+                end_time: beginTime.toLocaleTimeString()
+            })
+        }
+    }
+
+    res.json(times);
+}
