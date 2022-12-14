@@ -5,7 +5,7 @@ import { Availability, StartEndTime } from '../interfaces/hairdresser.interface'
 
 const prisma = new PrismaClient()
 
-function excludeHairdresser<Hairdresser, Key extends keyof Hairdresser>(
+function exclude<Hairdresser, Key extends keyof Hairdresser>(
     hairdresser: Hairdresser,
     keys: Key[]
 ): Omit<Hairdresser, Key> {
@@ -13,15 +13,6 @@ function excludeHairdresser<Hairdresser, Key extends keyof Hairdresser>(
         delete hairdresser[key]
     }
     return hairdresser
-}
-function excludeAvailability<Availability, Key extends keyof Availability>(
-    availability: Availability,
-    keys: Key[]
-): Omit<Availability, Key> {
-    for (const key of keys) {
-        delete availability[key]
-    }
-    return availability
 }
 
 export const getAllHairdressers = async (
@@ -50,7 +41,7 @@ export const getHairdresser = async (
         res.status(404).send('The hairdresser you tried to find is not found')
         return
     }
-    excludeHairdresser(hairdresser, ['password'])
+    exclude(hairdresser, ['password'])
 
     res.json(hairdresser)
 }
