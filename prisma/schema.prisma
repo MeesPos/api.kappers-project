@@ -12,7 +12,6 @@ model Hairdresser {
   name String
   email String @unique
   password String
-  availability Json
   default_times DefaultTimes[]
   changed_times ChangedTimes[]
 } 

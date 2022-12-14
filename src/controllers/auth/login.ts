@@ -18,8 +18,10 @@ export const login = async (
         },
     })
 
-
-    if (!existingUser || !await bcrypt.compare(password, existingUser?.password)) {
+    if (
+        !existingUser ||
+        !(await bcrypt.compare(password, existingUser?.password))
+    ) {
         // @ts-ignore
         Promise.resolve()
             .then(() => {
