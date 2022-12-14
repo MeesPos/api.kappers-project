@@ -2,7 +2,6 @@ import { Request, Response, NextFunction } from 'express'
 import { PrismaClient } from '@prisma/client'
 import bcrypt from 'bcrypt'
 import { Availability, StartEndTime } from '../interfaces/hairdresser.interface'
-import { Availability, StartEndTime } from '../interfaces/hairdresser.interface'
 
 const prisma = new PrismaClient()
 
@@ -31,7 +30,6 @@ export const getHairdresser = async (
     next: NextFunction
 ) => {
     const hairdresser_id = +req.params.id
-
 
     const hairdresser = await prisma.hairdresser.findUnique({
         where: {
@@ -117,18 +115,27 @@ export const addDefaultAvailability = async (
     const hairdresser_id = +req.params.id
     const availability = req.body as Availability
 
-    for(const day of Object.keys(availability)){
+    for (const day of Object.keys(availability)) {
         const dataOfDay = availability[day as unknown as keyof Availability]
-        
-        const update = await prisma.defaultTimes.updateMany({
+        const exist = await prisma.defaultTimes.findMany({
+            where: {
+                hairdresser_id: {
+                    equals: hairdresser_id,
+                },
+                day_of_the_week: {
+                    equals: day,
+                },
+            },
+        })
+        if (exist.length > 0) {
+            const update = await prisma.defaultTimes.updateMany({
                 where: {
                     hairdresser_id: {
                         equals: hairdresser_id,
-                      },
-                      day_of_the_week: {
+                    },
+                    day_of_the_week: {
                         equals: day,
-                      },
-                            
+                    },
                 },
                 data: {
                     day_of_the_week: day,
@@ -136,25 +143,40 @@ export const addDefaultAvailability = async (
                     end_time: dataOfDay.end_time,
                     pauzes: JSON.stringify(dataOfDay.pauses),
                 },
-            })                
-            // update.count === 0 when you submit the same data.
-            // how to solve this?
-            // check if data already exist? or something else....
-            
-            if(update.count === 0){
-                const create = await prisma.defaultTimes.create({
-                    data: {
-                        hairdresser_id:  hairdresser_id,
-                        day_of_the_week: day,
-                        start_time: dataOfDay.start_time,
-                        end_time: dataOfDay.end_time,
-                        pauzes: JSON.stringify(dataOfDay.pauses),
-                    },
-                })
-                console.log('da' + create)
-            }
-        
+            })
+        } else {
+            const create = await prisma.defaultTimes.create({
+                data: {
+                    hairdresser_id: hairdresser_id,
+                    day_of_the_week: day,
+                    start_time: dataOfDay.start_time,
+                    end_time: dataOfDay.end_time,
+                    pauzes: JSON.stringify(dataOfDay.pauses),
+                },
+            })
+        }
     }
-    
+
     res.json({ succes: true })
+}
+
+export const getDefaultAvailability = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    const hairdresser_id = +req.params.id
+
+    const defaultTimes = await prisma.defaultTimes.findMany({
+        where: {
+            hairdresser_id: hairdresser_id,
+        },
+    })
+    if (!defaultTimes) {
+        res.status(404).send(
+            `Default times of hairdresser ${hairdresser_id} not found`
+        )
+    }
+
+    res.json(JSON.stringify(defaultTimes))
 }
