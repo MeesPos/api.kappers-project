@@ -23,7 +23,8 @@ model DefaultTimes {
   day_of_the_week String
   start_time String?
   end_time String?
-  pauzes Json?
+  pauzes Json
+
 }
 
 model ChangedTimes {
@@ -33,5 +34,6 @@ model ChangedTimes {
   date String
   start_time String?
   end_time String?
-  pauzes Json?
+  pauzes Json
 }
+

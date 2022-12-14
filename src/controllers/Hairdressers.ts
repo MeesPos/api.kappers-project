@@ -5,7 +5,7 @@ import { Availability, StartEndTime } from '../interfaces/hairdresser.interface'
 
 const prisma = new PrismaClient()
 
-function exclude<Hairdresser, Key extends keyof Hairdresser>(
+function excludeHairdresser<Hairdresser, Key extends keyof Hairdresser>(
     hairdresser: Hairdresser,
     keys: Key[]
 ): Omit<Hairdresser, Key> {
@@ -13,6 +13,15 @@ function exclude<Hairdresser, Key extends keyof Hairdresser>(
         delete hairdresser[key]
     }
     return hairdresser
+}
+function excludeAvailability<Availability, Key extends keyof Availability>(
+    availability: Availability,
+    keys: Key[]
+): Omit<Availability, Key> {
+    for (const key of keys) {
+        delete availability[key]
+    }
+    return availability
 }
 
 export const getAllHairdressers = async (
@@ -41,7 +50,7 @@ export const getHairdresser = async (
         res.status(404).send('The hairdresser you tried to find is not found')
         return
     }
-    exclude(hairdresser, ['password'])
+    excludeHairdresser(hairdresser, ['password'])
 
     res.json(hairdresser)
 }
@@ -139,9 +148,9 @@ export const addDefaultAvailability = async (
                 },
                 data: {
                     day_of_the_week: day,
-                    start_time: dataOfDay.start_time,
-                    end_time: dataOfDay.end_time,
-                    pauzes: JSON.stringify(dataOfDay.pauses),
+                    start_time: dataOfDay?.start_time,
+                    end_time: dataOfDay?.end_time,
+                    pauzes: dataOfDay?.pauses,
                 },
             })
         } else {
@@ -149,9 +158,9 @@ export const addDefaultAvailability = async (
                 data: {
                     hairdresser_id: hairdresser_id,
                     day_of_the_week: day,
-                    start_time: dataOfDay.start_time,
-                    end_time: dataOfDay.end_time,
-                    pauzes: JSON.stringify(dataOfDay.pauses),
+                    start_time: dataOfDay?.start_time,
+                    end_time: dataOfDay?.end_time,
+                    pauzes: dataOfDay?.pauses,
                 },
             })
         }
@@ -167,16 +176,28 @@ export const getDefaultAvailability = async (
 ) => {
     const hairdresser_id = +req.params.id
 
-    const defaultTimes = await prisma.defaultTimes.findMany({
+    const dbDefaultTimes = await prisma.defaultTimes.findMany({
         where: {
             hairdresser_id: hairdresser_id,
         },
     })
-    if (!defaultTimes) {
+    if (dbDefaultTimes.length === 0) {
         res.status(404).send(
-            `Default times of hairdresser ${hairdresser_id} not found`
+            `Defaulttimes of hairdresser ${hairdresser_id} not found`
         )
+        return
     }
+    const defaultTimes: Availability = {}
+    dbDefaultTimes.forEach(
+        (day) =>
+            (defaultTimes[
+                day.day_of_the_week as unknown as keyof Availability
+            ] = {
+                start_time: day.start_time!,
+                end_time: day.end_time!,
+                pauses: day.pauzes,
+            })
+    )
 
-    res.json(JSON.stringify(defaultTimes))
+    res.json(defaultTimes)
 }
