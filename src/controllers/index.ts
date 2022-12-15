@@ -24,7 +24,7 @@ export default {
     sendMail,
     resetPassword,
     addDefaultAvailability,
-    getDefaultAvailability
+    getDefaultAvailability,
     getAvailableDates,
     getAvailabilityOnDate
 
