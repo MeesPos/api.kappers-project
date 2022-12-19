@@ -37,3 +37,9 @@ model ChangedTimes {
   pauzes Json
 }
 
+model Appointments {
+  id Int @id @default(autoincrement())
+  date String
+  start_time String
+  end_time String
+}
