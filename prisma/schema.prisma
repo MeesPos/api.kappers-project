@@ -39,9 +39,16 @@ model ChangedTimes {
 
 model Appointments {
   id Int @id @default(autoincrement())
+  treatment Treatments @relation(fields: [treatment_id], references: [id])
+  treatment_id Int
   hairdresser Hairdresser @relation(fields: [hairdresser_id], references: [id])
   hairdresser_id Int
   date String
   start_time String
   end_time String
+}
+
+model Treatments {
+  id Int @id @default(autoincrement())
+  appointments Appointments[]
 }
