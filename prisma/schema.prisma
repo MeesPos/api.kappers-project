@@ -45,6 +45,8 @@ model Appointments {
   hairdresser_id Int
   personal_data PersonalDatas @relation(fields: [personal_data_id], references: [id])
   personal_data_id Int
+  payment Payments @relation(fields: [payment_id], references: [id])
+  payment_id Int
   date String
   start_time String
   end_time String
@@ -62,4 +64,12 @@ model PersonalDatas {
   email String
   phone_number String
   note String?
+}
+
+model Payments {
+  id Int @id @default(autoincrement())
+  appointment Appointments[]
+  price Int
+  payment_method String
+  student_discount Boolean @default(false)
 }
