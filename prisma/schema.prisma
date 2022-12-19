@@ -14,6 +14,7 @@ model Hairdresser {
   password String
   default_times DefaultTimes[]
   changed_times ChangedTimes[]
+  appointments Appointments[]
 } 
 
 model DefaultTimes {
@@ -24,7 +25,6 @@ model DefaultTimes {
   start_time String?
   end_time String?
   pauzes Json
-
 }
 
 model ChangedTimes {
@@ -39,6 +39,8 @@ model ChangedTimes {
 
 model Appointments {
   id Int @id @default(autoincrement())
+  hairdresser Hairdresser @relation(fields: [hairdresser_id], references: [id])
+  hairdresser_id Int
   date String
   start_time String
   end_time String
