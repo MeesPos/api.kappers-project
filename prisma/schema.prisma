@@ -43,6 +43,8 @@ model Appointments {
   treatment_id Int
   hairdresser Hairdresser @relation(fields: [hairdresser_id], references: [id])
   hairdresser_id Int
+  personal_data PersonalDatas @relation(fields: [personal_data_id], references: [id])
+  personal_data_id Int
   date String
   start_time String
   end_time String
@@ -51,4 +53,13 @@ model Appointments {
 model Treatments {
   id Int @id @default(autoincrement())
   appointments Appointments[]
+}
+
+model PersonalDatas {
+  id Int @id @default(autoincrement())
+  appointment Appointments[]
+  name String
+  email String
+  phone_number String
+  note String?
 }
