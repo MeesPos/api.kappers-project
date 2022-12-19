@@ -47,6 +47,7 @@ model Appointments {
   personal_data_id Int
   payment Payments @relation(fields: [payment_id], references: [id])
   payment_id Int
+  extra_services ExtraServicesAppointments[]
   date String
   start_time String
   end_time String
@@ -72,4 +73,17 @@ model Payments {
   price Int
   payment_method String
   student_discount Boolean @default(false)
+}
+
+model ExtraServices {
+  id Int @id @default(autoincrement())
+  appointments ExtraServicesAppointments[]
+}
+
+model ExtraServicesAppointments {
+  id Int @id @default(autoincrement())
+  appointment Appointments @relation(fields: [appointment_id], references: [id])
+  appointment_id Int
+  extra_service ExtraServices @relation(fields: [extra_service_id], references: [id])
+  extra_service_id Int
 }
