@@ -14,10 +14,9 @@ const router: Express = express()
 router.use(morgan('dev'))
 /* Parse the request */
 router.use(express.urlencoded({ extended: false }))
-/* Takes care of JSON data */
-router.use(express.json())
-/* Use CORS for API routes */
 router.use(cors())
+router.use(express.json({ limit: '50mb' }))
+router.use('/image', express.static('images'))
 
 /* Routes */
 router.use('/', routes)

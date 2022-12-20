@@ -1,7 +1,8 @@
+import { Hairdresser, PrismaClient } from '@prisma/client'
 import { Request, Response, NextFunction } from 'express'
-import { PrismaClient } from '@prisma/client'
 import bcrypt from 'bcrypt'
 import { Availability, StartEndTime } from '../interfaces/hairdresser.interface'
+import fs from 'fs'
 
 const prisma = new PrismaClient()
 
@@ -80,10 +81,22 @@ export const postNewHairdresser = async (
     res: Response,
     next: NextFunction
 ) => {
-    const { name, email, password } = req.body
+    const { name, email, password, image } = req.body
+
+    if (!name || !email || !password) {
+        res.status(400).send('name, email or password are required')
+        return
+    }
 
     const hash = await bcrypt.hash(password, 10)
-
+    const imageName = Math.ceil(Math.random() * 1000) + '.png'
+    if (image) {
+        // const buffer = Buffer.from(image, 'base64')
+        const base64Data = image.replace(/^data:([A-Za-z-+/]+);base64,/, '')
+        fs.writeFileSync('./images/' + imageName, base64Data, {
+            encoding: 'base64',
+        })
+    }
     try {
         const hairdresser = await prisma.hairdresser.upsert({
             where: {
@@ -93,11 +106,13 @@ export const postNewHairdresser = async (
                 name: name,
                 email: email,
                 password: hash,
+                image: imageName,
             },
             update: {
                 name: name,
                 email: email,
                 password: hash,
+                image: imageName,
             },
         })
     } catch (error) {

@@ -15,6 +15,7 @@ model Hairdresser {
   default_times DefaultTimes[]
   changed_times ChangedTimes[]
   appointments Appointments[]
+  image String
 } 
 
 model DefaultTimes {
