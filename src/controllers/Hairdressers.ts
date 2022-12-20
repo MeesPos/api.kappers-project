@@ -91,7 +91,6 @@ export const postNewHairdresser = async (
     const hash = await bcrypt.hash(password, 10)
     const imageName = Math.ceil(Math.random() * 1000) + '.png'
     if (image) {
-        // const buffer = Buffer.from(image, 'base64')
         const base64Data = image.replace(/^data:([A-Za-z-+/]+);base64,/, '')
         fs.writeFileSync('./images/' + imageName, base64Data, {
             encoding: 'base64',
