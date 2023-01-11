@@ -144,12 +144,13 @@ export const getAvailabilityOnDate = async (req: Request, res: Response) => {
     )
 
     for (let i = 1; i <= minutes / treatmentTime; i++) {
-        const startTime = beginTime.toLocaleTimeString()
+        const startTime = beginTime.getHours() + ':' + ('0'+beginTime.getMinutes()).slice(-2);
         beginTime = new Date(beginTime.getTime() + treatmentTime * 60000)
+        const formattedEndTime = beginTime.getHours() + ':' + ('0'+beginTime.getMinutes()).slice(-2);
 
         times.push({
             start_time: startTime,
-            end_time: beginTime.toLocaleTimeString(),
+            end_time: formattedEndTime,
         })
     }
 
