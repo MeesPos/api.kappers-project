@@ -7,6 +7,7 @@ import {
     addDefaultAvailability,
     getDefaultAvailability
 } from './Hairdressers'
+// import { saveAppointment } from './Appointments'
 import { login } from './auth/login'
 import { sendMail, resetPassword } from './auth/forgotPassword'
 import { getAvailableDates, getAvailabilityOnDate } from './availability'
@@ -26,6 +27,6 @@ export default {
     addDefaultAvailability,
     getDefaultAvailability,
     getAvailableDates,
-    getAvailabilityOnDate
-
+    getAvailabilityOnDate,
+    // saveAppointment,
 }
