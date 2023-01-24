@@ -11,7 +11,7 @@ export const newAppointment = async (req: Request, res: Response) => {
         data: {
             name: body.personalData.name,
             email: body.personalData.email,
-            phone_number: body.personalData.phone_number,
+            phone_number: body.personalData.phone_number!,
             note: body.personalData.note,
         },
     })
@@ -37,4 +37,12 @@ export const newAppointment = async (req: Request, res: Response) => {
     })
 
     res.json({ success: true })
+}
+
+export const getAppointments = async (req: Request, res: Response) => {
+    const appointments = await prisma.appointments.findMany()
+
+    console.log(appointments)
+
+    res.json(appointments)
 }
