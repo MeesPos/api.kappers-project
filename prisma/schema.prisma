@@ -64,7 +64,7 @@ model PersonalDatas {
   appointment Appointments[]
   name String
   email String
-  phone_number String
+  phone_number String?
   note String?
 }
 

@@ -5,11 +5,12 @@ import {
     postUpdateHairdresser,
     postNewHairdresser,
     addDefaultAvailability,
-    getDefaultAvailability
+    getDefaultAvailability,
 } from './Hairdressers'
 import { login } from './auth/login'
 import { sendMail, resetPassword } from './auth/forgotPassword'
 import { getAvailableDates, getAvailabilityOnDate } from './availability'
+import { newAppointment } from './appointment'
 
 const getIndex = async (req: Request, res: Response, next: NextFunction) => {
     res.send('index page')
@@ -26,6 +27,6 @@ export default {
     addDefaultAvailability,
     getDefaultAvailability,
     getAvailableDates,
-    getAvailabilityOnDate
-
+    getAvailabilityOnDate,
+    newAppointment,
 }
