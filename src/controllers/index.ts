@@ -10,7 +10,7 @@ import {
 import { login } from './auth/login'
 import { sendMail, resetPassword } from './auth/forgotPassword'
 import { getAvailableDates, getAvailabilityOnDate } from './availability'
-import { newAppointment } from './appointment'
+import { newAppointment, getAppointments } from './appointment'
 
 const getIndex = async (req: Request, res: Response, next: NextFunction) => {
     res.send('index page')
@@ -29,4 +29,5 @@ export default {
     getAvailableDates,
     getAvailabilityOnDate,
     newAppointment,
+    getAppointments,
 }

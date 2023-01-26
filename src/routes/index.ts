@@ -15,6 +15,7 @@ router.post('/new/hairdresser', controllers.postNewHairdresser)
 router.post('/update/hairdresser', controllers.postNewHairdresser)
 
 router.post('/appointment', controllers.newAppointment)
+router.get('/appointments', controllers.getAppointments)
 
 router.post('/login', controllers.login)
 router.post('/forgot-password', controllers.sendMail)

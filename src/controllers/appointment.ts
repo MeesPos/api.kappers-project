@@ -11,7 +11,7 @@ export const newAppointment = async (req: Request, res: Response) => {
         data: {
             name: body.personalData.name,
             email: body.personalData.email,
-            phone_number: body.personalData.phone_number,
+            phone_number: body.personalData.phone_number!,
             note: body.personalData.note,
         },
     })
@@ -37,4 +37,28 @@ export const newAppointment = async (req: Request, res: Response) => {
     })
 
     res.json({ success: true })
+}
+
+export const getAppointments = async (req: Request, res: Response) => {
+    const appointments = (await prisma.appointments.findMany({
+        include: {
+            personal_data: true,
+            treatment: true,
+        },
+        take: 30,
+        orderBy: {
+            date: 'asc',
+        },
+    })) as any
+
+    for (const appointment of appointments) {
+        const hairdresser = await prisma.hairdresser.findUnique({
+            where: {
+                id: appointment.hairdresser_id,
+            },
+        })
+        appointment['hairdresser_name'] = hairdresser?.name
+    }
+
+    const newAppointments = res.json({ succes: true, data: appointments })
 }
